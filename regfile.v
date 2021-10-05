@@ -22,10 +22,12 @@ module regfile (
 	
 	/*create 32 32-bits register*/
 	wire[31:0] Q [31:0];
+	wire[31:0] enable;
 	generate
    genvar i;
 	for(i=1;i<32;i=i+1) begin: reg_32
-         reg_32 register(Q[i], data_writeReg, ctrl_w_one_hot[i], clock, ctrl_reset);
+			and en(enable[i], ctrl_w_one_hot[i], ctrl_writeEnable);
+         reg_32 register(Q[i], data_writeReg, enable[i], clock, ctrl_reset);
    end
 	endgenerate
 	

@@ -32,10 +32,23 @@ module regfile_tb();
         @(negedge clock);    // wait until next negative edge of clock
 
         // Begin testing... (loop over registers)
-        for(index = 0; index <= 31; index = index + 1) begin
+        for(index = 1; index <= 31; index = index + 1) begin
             writeRegister(index, 32'h0000DEAD);
             checkRegister(index, 32'h0000DEAD);
         end
+		  
+        ctrl_reset = 1'b1;    // assert reset
+        @(negedge clock);    // wait until next negative edge of clock
+        @(negedge clock);    // wait until next negative edge of clock
+
+        ctrl_reset = 1'b0;    // de-assert reset
+        @(negedge clock);    // wait until next negative edge of clock
+		  
+		  for(index = 0; index <= 31; index = index + 1) begin
+            checkRegister(index, 32'h00000000);
+				$display("%d", index);
+        end
+			
 
         if (errors == 0) begin
             $display("The simulation completed without errors");
@@ -46,8 +59,7 @@ module regfile_tb();
 
         $stop;
     end
-
-
+		
 
     // Clock generator
     always

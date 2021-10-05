@@ -46,10 +46,26 @@ module regfile_tb();
 		  
 		  for(index = 0; index <= 31; index = index + 1) begin
             checkRegister(index, 32'h00000000);
-				$display("%d", index);
+        end
+
+		  ctrl_reset = 1'b1;    // assert reset
+        @(negedge clock);    // wait until next negative edge of clock
+        @(negedge clock);    // wait until next negative edge of clock
+
+        ctrl_reset = 1'b0;    // de-assert reset
+        @(negedge clock);    // wait until next negative edge of clock  
+			
+		  for(index = 1; index <= 31; index = index + 1) begin
+            writeRegister(index, 32'h0000DEAD);
         end
 			
-
+		  for(index = 2; index <= 31; index = index + 1) begin
+            writeRegister(index, 32'hAAAADEAD);
+            checkRegister(index, 32'hAAAADEAD);
+        end
+		  
+		  checkRegister(1, 32'h0000DEAD);
+		  
         if (errors == 0) begin
             $display("The simulation completed without errors");
         end

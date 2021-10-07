@@ -26,4 +26,4 @@ Read operation is implemented using decoder together and tri-state. Decoder will
 The input of this 32-bits decoder is 5-bits selection code. The output of this decoder is 32-bits one hot. The decoder is constructed by drawing the truth table between the input and output. For every output digit, its formular is constructed using the sum of product method. With these 32 formulars, we can construc the decoder.  
 
 # How fast can be clocked
-
+We run the test case on time-based simulation, our Regfile gives the correct output on 50MHz clock.  
